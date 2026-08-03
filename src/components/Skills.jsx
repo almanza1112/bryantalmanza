@@ -1,60 +1,74 @@
-import React from 'react'
-import HTML from '../assets/html.png'
-import CSS from '../assets/css3.png'
-import JavaScript from '../assets/javascript.png'
-import Node from '../assets/node-js.png'
-import ReactImg from '../assets/react.png'
-import MongoDB from '../assets/mongodb.png'
-import Flutter from '../assets/flutter.png'
-import Firebase from '../assets/firebase.png'
+import React from "react";
+import {
+  SiAmazonaws,
+  SiCss3,
+  SiDart,
+  SiFirebase,
+  SiFlutter,
+  SiHtml5,
+  SiJavascript,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiReact,
+  SiTypescript,
+} from "react-icons/si";
+import Reveal from "./ui/Reveal";
 
-const Skills = () => {
-  return (
-    <div name='skills' className='section-tb-style'>
-        {/* Container */}
-        <div className='max-w-[1000px] mx-auto p-4 flex flex-col justify-center w-full h-full'>
-            <div>
-                <p className='section-title'>Skills</p>
-                <p className='py-4'>These are some of the technologies I work with</p>
-            </div>
+/**
+ * These were eight 128px PNGs (~90KB) loaded as <img>. They are SVG components
+ * now: no image requests, crisp at any size, and each carries its brand colour.
+ *
+ * Added since the original set: TypeScript, Next.js, Dart, and AWS — all of
+ * which show up across the projects below but were missing here.
+ */
+const SKILLS = [
+  { name: "HTML", Icon: SiHtml5, color: "#E34F26" },
+  { name: "CSS", Icon: SiCss3, color: "#1572B6" },
+  { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
+  { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+  { name: "React", Icon: SiReact, color: "#61DAFB" },
+  { name: "Next.js", Icon: SiNextdotjs, color: "#FFFFFF" },
+  { name: "Node.js", Icon: SiNodedotjs, color: "#5FA04E" },
+  { name: "Flutter", Icon: SiFlutter, color: "#42A5F5" },
+  { name: "Dart", Icon: SiDart, color: "#0175C2" },
+  { name: "AWS", Icon: SiAmazonaws, color: "#FF9900" },
+  { name: "Firebase", Icon: SiFirebase, color: "#FFCA28" },
+  { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
+];
 
-            <div className='w-full grid grid-cols-2 sm:grid-cols-4 gap-4 text-center py-8'>
-                <div className='skills-item'>
-                    <img className='skills-img' src={HTML} alt='HTML logo'></img>
-                    <p className='my-4'>HTML</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={CSS} alt='CSS logo'></img>
-                    <p className='my-4'>CSS</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={JavaScript} alt='JavaScript logo'></img>
-                    <p className='my-4'>JavaScript</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={ReactImg} alt='React logo'></img>
-                    <p className='my-4'>React</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={Node} alt='Node.js logo'></img>
-                    <p className='my-4'>Node.js</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={MongoDB} alt='MongoDB logo'></img>
-                    <p className='my-4'>MongoDB</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={Flutter} alt='Flutter logo'></img>
-                    <p className='my-4'>Flutter</p>
-                </div>
-                <div className='skills-item'>
-                    <img className='skills-img' src={Firebase} alt='Firebase logo'></img>
-                    <p className='my-4'>Firebase</p>
-                </div>
-            </div>
-        </div>
+const Skills = () => (
+  <section id="skills" className="section-auto section--raised">
+    <div className="shell">
+      <Reveal variant="fade" className="eyebrow">
+        <span>02 — Skills</span>
+      </Reveal>
+      <Reveal as="h2" delay={80} className="section-title">
+        Technologies I work with
+      </Reveal>
+      <Reveal as="p" delay={150} className="section-lead">
+        The tools I reach for most. Everything below shows up in the work further
+        down the page.
+      </Reveal>
+
+      <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:mt-16 md:grid-cols-4 lg:grid-cols-6">
+        {SKILLS.map((skill, i) => {
+          const { Icon } = skill;
+          return (
+            <Reveal
+              as="li"
+              key={skill.name}
+              delay={i * 45}
+              className="skill-tile"
+            >
+              <Icon size={38} color={skill.color} aria-hidden="true" />
+              <span className="text-sm font-medium">{skill.name}</span>
+            </Reveal>
+          );
+        })}
+      </ul>
     </div>
-  )
-}
+  </section>
+);
 
-export default Skills
+export default Skills;
