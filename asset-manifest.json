@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.25b08057.css",
+    "main.js": "/static/js/main.88bca1b4.js",
+    "static/media/nextplay-ss-1400.webp": "/static/media/nextplay-ss-1400.c8e1f06e3f9d55355fed.webp",
+    "static/media/chinesepod-ss-1400.webp": "/static/media/chinesepod-ss-1400.39d7ed70060d0f0b412d.webp",
+    "static/media/ambe-ss-1400.webp": "/static/media/ambe-ss-1400.8e501f1dfcff5947c5cf.webp",
+    "static/media/almanzatech-ss-1400.webp": "/static/media/almanzatech-ss-1400.f247f6c590af4b364e54.webp",
+    "static/media/curzonrelo-ss-1400.webp": "/static/media/curzonrelo-ss-1400.e9f59c130a49f468fc37.webp",
+    "static/media/nextplay-ss-700.webp": "/static/media/nextplay-ss-700.e116d52ab5e82be35794.webp",
+    "static/media/chinesepod-ss-700.webp": "/static/media/chinesepod-ss-700.5240df0aa67c9db45716.webp",
+    "static/media/salesgong-ss-1400.webp": "/static/media/salesgong-ss-1400.d11e7c51266d8764e7cf.webp",
+    "static/media/djohwoww-ss-1400.webp": "/static/media/djohwoww-ss-1400.7b6d0ab2c6d71edfbeec.webp",
+    "static/media/persyst-ss-1400.webp": "/static/media/persyst-ss-1400.8046882aa029d972d7e1.webp",
+    "static/media/ambe-ss-700.webp": "/static/media/ambe-ss-700.69fcd79a4c6e1742238c.webp",
+    "static/media/almanzatech-ss-700.webp": "/static/media/almanzatech-ss-700.7c4159dec5a2fdcbf374.webp",
+    "static/media/curzonrelo-ss-700.webp": "/static/media/curzonrelo-ss-700.a8fe90d0169ab1eb501a.webp",
+    "static/media/salesgong-ss-700.webp": "/static/media/salesgong-ss-700.fdef2627c84dc2c6ed58.webp",
+    "static/media/persyst-ss-700.webp": "/static/media/persyst-ss-700.9bfaa75e30842f1a7ad1.webp",
+    "static/media/djohwoww-ss-700.webp": "/static/media/djohwoww-ss-700.3e2c97ccff74ecb2f48a.webp",
+    "static/media/logo.png": "/static/media/logo.20e0d10f4bbe14a8c3b8.png",
+    "index.html": "/index.html",
+    "main.25b08057.css.map": "/static/css/main.25b08057.css.map",
+    "main.88bca1b4.js.map": "/static/js/main.88bca1b4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.25b08057.css",
+    "static/js/main.88bca1b4.js"
+  ]
+}

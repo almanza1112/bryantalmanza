@@ -1,0 +1,16 @@
+{
+  "short_name": "Bryant Almanza",
+  "name": "Bryant Almanza \u2014 Full Stack Developer",
+  "description": "Portfolio of Bryant Almanza: web and mobile applications, from multi-tenant AWS platforms to apps on the App Store.",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "250x250",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0b2a45",
+  "background_color": "#0b2a45"
+}
