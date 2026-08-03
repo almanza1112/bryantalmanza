@@ -1,31 +1,69 @@
-import React from 'react'
-import {HiArrowNarrowRight} from 'react-icons/hi'
-import {Link} from 'react-scroll'
+import React from "react";
+import { HiArrowNarrowRight } from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
+import Reveal from "./ui/Reveal";
+import { SITE } from "../data/site";
+import { STATS } from "../data/projects";
 
-const Home = () => {
-  return (
-    <div name='home' className='section-style'>
-        
-        {/* Container */}
-        <div className='max-w-[1000px] mx-auto px-8 flex flex-col justify-center h-full'>
-            <p className='text-xl sm:text-4xl text-[#f2486a] font-bold'>Hello! My name is</p>
-            <h1 className='text-4xl sm:text-7xl font-bold text-gray-300'>Bryant Almanza</h1>
-            <h2 className='text-4xl sm:text-7xl font-bold text-gray-400'>I'm a Full Stack Developer.</h2>
-            <p className='text-gray-400 py-4 max-w-[700px]'>I specialicialize in creating and designing 
-                web and mobile applications. Enjoy your time here, browse around, check out my work or 
-                feel free send me an email.</p>
-            <div>
-                <Link to="work" smooth={true} duration={500}>
-                    <button className='flat-btn group my-2'>VIEW WORK 
-                        <span className='group-hover:rotate-90 duration-300'>
-                            <HiArrowNarrowRight className='ml-3'/>
-                        </span>
-                        </button>
-                </Link>
-            </div>
-        </div>
+const Home = () => (
+  <section id="top" className="section overflow-hidden">
+    <div className="shell">
+      <Reveal variant="fade" className="eyebrow">
+        <span>{SITE.location}</span>
+      </Reveal>
+
+      <Reveal as="h1" delay={80} className="mt-6 text-4xl font-bold sm:text-6xl lg:text-7xl">
+        Bryant Almanza
+      </Reveal>
+
+      <Reveal
+        as="p"
+        delay={150}
+        className="mt-3 text-2xl font-semibold text-muted sm:text-4xl lg:text-5xl"
+      >
+        I build software that ships.
+        <span className="caret" aria-hidden="true" />
+      </Reveal>
+
+      <Reveal as="p" delay={220} className="mt-7 max-w-xl leading-relaxed text-muted">
+        {/* "specialicialize" was a live typo here. */}
+        I specialize in designing and building web and mobile applications — from
+        multi-tenant platforms on AWS to apps on the App Store. Have a look around,
+        check out my work, or send me an email.
+      </Reveal>
+
+      <Reveal delay={300} className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
+        <a href="#work" className="btn btn-primary">
+          View my work
+          <HiArrowNarrowRight aria-hidden="true" size={18} />
+        </a>
+        <a href="#contact" className="btn btn-ghost">
+          Get in touch
+          <HiOutlineMail aria-hidden="true" size={18} />
+        </a>
+      </Reveal>
+
+      {/* Counted from the project list, so these can never contradict the work
+          shown further down the page. */}
+      <Reveal
+        delay={380}
+        className="mt-12 grid max-w-xl grid-cols-3 gap-4 border-t border-line pt-8"
+      >
+        {[
+          { value: STATS.appsShipped, label: "Apps on the App Store" },
+          { value: STATS.sitesShipped, label: "Websites shipped" },
+          { value: STATS.inDevelopment, label: "In development" },
+        ].map((stat) => (
+          <div key={stat.label}>
+            <p className="text-3xl font-bold text-coral sm:text-4xl">{stat.value}</p>
+            <p className="mt-1.5 font-mono text-[0.62rem] uppercase leading-snug tracking-[0.14em] text-muted">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </Reveal>
     </div>
-  )
-}
+  </section>
+);
 
-export default Home
+export default Home;

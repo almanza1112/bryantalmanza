@@ -2,127 +2,663 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
+/* ==========================================================================
+   Bryant Almanza — design tokens
+
+   Evolution of the existing identity, not a replacement. The navy (#123e64)
+   and coral (#f2486a) are unchanged; what is new is a surface scale beneath
+   them, so sections can sit at different depths instead of every block being
+   the same flat colour.
+
+   Fonts moved to public/index.html with preconnect — an @import here sat
+   inside the render-blocking stylesheet and delayed first paint.
+   ========================================================================== */
+
+:root {
+    /* Coral accent — unchanged */
+    --coral: #f2486a;
+    --coral-soft: #ed7f95;
+    --coral-deep: #b32e49;
+    /* AA-verified companions to the brand coral: #f2909f reads at 4.88:1 on
+       navy-2 / 6.47:1 on navy for small text; #e8103b carries white button
+       labels at 4.60:1 (brand coral itself only manages 3.55:1). */
+    --coral-text: #f2909f;
+    --coral-btn: #e8103b;
+    --coral-glow: rgba(242, 72, 106, 0.35);
+
+    /* Navy scale. --navy-2 is the original background, now the raised surface. */
+    --navy: #0b2a45;
+    --navy-2: #123e64;
+    --navy-3: #174d7a;
+
+    --line: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(242, 72, 106, 0.4);
+
+    --text: #e9eff5;
+    --text-muted: #a3b8ca;
+
+    --nav-h: 5rem;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
     body {
-        @apply font-[Raleway];
-        @apply text-gray-300;
+        @apply font-sans font-normal antialiased;
+        background-color: var(--navy);
+        color: var(--text);
+        overflow-x: hidden;
     }
 
-    li {
-        @apply px-4;
-        @apply cursor-pointer;
+    /* Anchor targets clear the fixed navbar. This is what the old react-scroll
+       links were missing — every section used to land 80px under the bar.
+       `article[id]` covers the deep-linkable project cards. */
+    section[id],
+    article[id],
+    li[id] {
+        scroll-margin-top: calc(var(--nav-h) + 1rem);
+    }
+
+    h1,
+    h2,
+    h3 {
+        @apply font-sans font-bold;
+        letter-spacing: -0.02em;
+    }
+
+    ::selection {
+        background: var(--coral);
+        color: #fff;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--coral);
+        outline-offset: 3px;
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--navy);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #1f4a71;
+        border: 3px solid var(--navy);
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--coral-deep);
     }
 }
 
-@layer utilities {
-    {/* Social Icons item */}
-    .si-item{
-        @apply w-[170px];
-        @apply h-[70px];
-        @apply flex;
-        @apply justify-between;
-        @apply items-center;
-        @apply ml-[-110px];
-        @apply hover:ml-[-10px];
-        @apply duration-300;
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+@layer components {
+    /* min-height, never height. The old `.section-style { height: 100vh }`
+       made centred content taller than the viewport unreachable. */
+    .section {
+        @apply relative flex w-full flex-col justify-center px-5 py-24 sm:px-8 md:py-28;
+        min-height: 100vh;
+        min-height: 100svh;
     }
 
-    .si-item-content {
-        @apply flex;
-        @apply justify-between;
-        @apply items-center;
-        @apply w-full;
+    /* For sections that legitimately outgrow a screen once populated. */
+    .section-auto {
+        @apply relative w-full px-5 py-24 sm:px-8 md:py-28;
     }
 
-
-    .section-style {
-        @apply w-full;
-        @apply h-screen;
-        @apply bg-[#123e64];
+    .section--raised {
+        background-color: var(--navy-2);
     }
 
-    {/* Section style that can overlap into others, applied md: breakpoint. tb = too big*/}
-    .section-tb-style{
-        @apply w-full;
-        @apply md:h-screen;
-        @apply bg-[#123e64];
+    .shell {
+        @apply mx-auto w-full max-w-[1100px];
     }
 
+    .eyebrow {
+        @apply flex items-center gap-3 font-mono text-[0.7rem] font-medium uppercase tracking-[0.22em];
+        color: var(--coral-text);
+    }
+
+    .eyebrow::after {
+        content: "";
+        @apply h-px w-10 sm:w-16;
+        background: linear-gradient(90deg, var(--line-strong), transparent);
+    }
+
+    /* Evolved from the old border-b-4 underline: same coral-underline idea,
+       but sized to the text and paired with the eyebrow above it. */
     .section-title {
-        @apply text-4xl;
-        @apply font-bold;
-        @apply inline;
-        @apply border-b-4;
-        @apply border-[#f2486a];
+        @apply mt-4 inline-block text-3xl font-bold sm:text-4xl md:text-[2.75rem];
+        line-height: 1.1;
     }
 
-    .skills-item {
-        @apply shadow-[0_0px_25px_0px_rgba(0,0,0,.5)];
-        @apply pt-6 pb-2;
+    .section-title::after {
+        content: "";
+        @apply mt-3 block h-1 w-16 rounded-full;
+        background: linear-gradient(90deg, var(--coral), var(--coral-soft));
     }
 
-    .skills-img {
-        @apply w-20;
-        @apply mx-auto;
+    .section-lead {
+        @apply mt-6 max-w-2xl leading-relaxed;
+        color: var(--text-muted);
     }
 
-    .work-item {
-        @apply shadow-lg;
-        @apply shadow-[#040c16];
-        @apply container;
-        @apply rounded-md;
-        @apply flex;
-        @apply justify-center;
-        @apply items-center;
-        @apply mx-auto;
-        @apply content-div;
-    }
-    
-    .work-item-title {
-        @apply text-2xl;
-        @apply font-bold;
-        @apply text-white;
-        @apply tracking-wider;
+    /* --- Buttons ---------------------------------------------------------- */
+
+    .btn {
+        @apply relative inline-flex items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-full px-7 text-sm font-semibold;
+        min-height: 3rem;
+        transition: background-color 0.25s var(--ease-out), color 0.25s var(--ease-out),
+            border-color 0.25s var(--ease-out), box-shadow 0.35s var(--ease-out),
+            transform 0.2s var(--ease-out);
     }
 
-    .work-item-btn-cont {
-        @apply pt-8;
-        @apply text-center;
+    .btn svg {
+        transition: transform 0.3s var(--ease-out);
     }
 
-    .work-item-btn {
-        @apply text-center;
-        @apply rounded-lg;
-        @apply px-4;
-        @apply py-3;
-        @apply m-2;
-        @apply bg-white;
-        @apply text-gray-700;
-        @apply font-bold;
-        @apply text-lg;
+    .btn:hover svg {
+        transform: translateX(3px);
     }
 
-    .flat-btn {
-        @apply text-white;
-        @apply border-2;
-        @apply hover:bg-[#f2486a];
-        @apply hover:border-[#f2486a];
-        @apply px-6;
-        @apply py-3;
-        @apply flex;
-        @apply items-center;
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn-primary {
+        background-color: var(--coral-btn);
+        color: #fff;
+        border: 2px solid var(--coral-btn);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--coral-deep);
+        border-color: var(--coral-deep);
+        box-shadow: 0 12px 32px -10px var(--coral-glow);
+    }
+
+    .btn-primary:disabled {
+        @apply cursor-not-allowed;
+        background-color: var(--coral-deep);
+        border-color: var(--coral-deep);
+        opacity: 0.7;
+    }
+
+    .btn-ghost {
+        color: var(--text);
+        border: 2px solid var(--line);
+        background-color: transparent;
+    }
+
+    .btn-ghost:hover {
+        border-color: var(--coral);
+        color: var(--coral-text);
+    }
+
+    .btn-block {
+        @apply w-full;
+    }
+
+    /* --- Cards and chips -------------------------------------------------- */
+
+    .card {
+        @apply relative rounded-2xl;
+        background-color: var(--navy-2);
+        border: 1px solid var(--line);
+        transition: border-color 0.35s var(--ease-out), transform 0.35s var(--ease-out),
+            box-shadow 0.35s var(--ease-out);
+    }
+
+    .card-hover:hover {
+        border-color: var(--line-strong);
+        transform: translateY(-3px);
+        box-shadow: 0 26px 50px -30px rgba(0, 0, 0, 0.9);
+    }
+
+    .chip {
+        @apply inline-flex items-center rounded-full px-3 py-1 font-mono text-[0.65rem] font-medium uppercase tracking-wider;
+        color: var(--text-muted);
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+    }
+
+    .chip-status {
+        color: var(--coral-text);
+        background-color: rgba(242, 72, 106, 0.1);
+        border-color: rgba(242, 72, 106, 0.35);
+    }
+
+    /* --- Skills ----------------------------------------------------------- */
+
+    /* Icons are react-icons SVGs now, replacing eight 128px PNGs. */
+    .skill-tile {
+        @apply flex flex-col items-center gap-3 rounded-xl px-3 py-6;
+        background-color: var(--navy-2);
+        border: 1px solid var(--line);
+        transition: transform 0.3s var(--ease-out), border-color 0.3s var(--ease-out),
+            background-color 0.3s var(--ease-out);
+    }
+
+    .skill-tile:hover {
+        transform: translateY(-4px);
+        border-color: var(--line-strong);
+        background-color: var(--navy-3);
+    }
+
+    .skill-tile svg {
+        transition: transform 0.3s var(--ease-out);
+    }
+
+    .skill-tile:hover svg {
+        transform: scale(1.12);
+    }
+
+    /* --- Forms ------------------------------------------------------------ */
+
+    .field {
+        @apply w-full rounded-lg px-4 py-3 text-sm;
+        color: var(--text);
+        background-color: var(--navy);
+        border: 1px solid var(--line);
+        transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+    }
+
+    .field::placeholder {
+        color: #7793a9;
+    }
+
+    .field:focus {
+        outline: none;
+        border-color: var(--coral);
+        box-shadow: 0 0 0 3px rgba(242, 72, 106, 0.16);
+    }
+
+    .field-label {
+        @apply mb-2 block font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em];
+        color: var(--text-muted);
+    }
+
+    .link-underline {
+        background-image: linear-gradient(var(--coral), var(--coral));
+        background-size: 0% 1px;
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        transition: background-size 0.3s var(--ease-out), color 0.3s var(--ease-out);
+    }
+
+    .link-underline:hover {
+        color: var(--coral-text);
+        background-size: 100% 1px;
+    }
+
+    .skip-link {
+        @apply absolute left-4 z-[100] rounded-full px-5 py-3 text-sm font-semibold;
+        top: -100px;
+        background: var(--coral);
+        color: #fff;
+        transition: top 0.2s var(--ease-out);
+    }
+
+    .skip-link:focus {
+        top: 1rem;
     }
 }
 
-.content-div{
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 250px;
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+
+.nav-shell {
+    @apply fixed inset-x-0 top-0 z-50;
+    height: var(--nav-h);
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
+        height 0.35s var(--ease-out);
 }
 
-.content-div:hover {
-    background-image: linear-gradient(to right, rgba(237, 127, 149, 0.8), rgba(242, 72, 106, 0.8))!important;
+.nav-shell--scrolled {
+    height: 4rem;
+    background-color: rgba(11, 42, 69, 0.85);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: var(--line);
+}
+
+.nav-progress {
+    @apply absolute bottom-0 left-0 h-0.5 w-full origin-left;
+    background: linear-gradient(90deg, var(--coral-deep), var(--coral));
+    transform: scaleX(var(--progress, 0));
+}
+
+.nav-link {
+    @apply relative py-2 text-xs font-semibold uppercase tracking-[0.16em];
+    color: var(--text);
+    transition: color 0.25s var(--ease-out);
+}
+
+.nav-link::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full;
+    background-color: var(--coral);
+    transition: transform 0.3s var(--ease-out);
+}
+
+.nav-link:hover,
+.nav-link[data-active="true"] {
+    color: var(--coral-text);
+}
+
+.nav-link:hover::after,
+.nav-link[data-active="true"]::after {
+    @apply scale-x-100;
+}
+
+/* Hamburger — was a ~16px div with no keyboard access; now a 44px button. */
+.burger {
+    @apply relative flex items-center justify-center rounded-lg;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--text);
+    transition: color 0.25s var(--ease-out);
+}
+
+.burger:hover {
+    color: var(--coral-text);
+}
+
+.burger-bar {
+    @apply absolute block h-0.5 w-6 rounded-full;
+    left: 50%;
+    top: 50%;
+    background-color: currentColor;
+    transition: transform 0.35s var(--ease-out);
+}
+
+.burger-bar:nth-of-type(1) {
+    transform: translate(-50%, -50%) translateY(-5px);
+}
+
+.burger-bar:nth-of-type(2) {
+    transform: translate(-50%, -50%) translateY(5px);
+}
+
+.burger[data-open="true"] .burger-bar:nth-of-type(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.burger[data-open="true"] .burger-bar:nth-of-type(2) {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.mobile-panel {
+    @apply fixed inset-0 z-40 flex flex-col overflow-y-auto;
+    /* Keep rubber-band scrolling at the panel's edges from reaching the page
+       behind it (iOS ignores the body overflow lock). */
+    overscroll-behavior: contain;
+    background-color: var(--navy);
+    transition: opacity 0.35s var(--ease-out), transform 0.4s var(--ease-out), visibility 0.4s;
+}
+
+.mobile-panel[data-open="false"] {
+    @apply pointer-events-none invisible opacity-0;
+    transform: translateY(-1.5rem);
+}
+
+.mobile-panel[data-open="true"] {
+    @apply visible opacity-100;
+    transform: translateY(0);
+}
+
+.mobile-link {
+    @apply flex items-baseline gap-4 border-b py-5 text-3xl font-bold;
+    border-color: var(--line);
+    transition: color 0.25s var(--ease-out), padding-left 0.3s var(--ease-out);
+}
+
+.mobile-link:hover,
+.mobile-link:active {
+    color: var(--coral-text);
+    padding-left: 0.5rem;
+}
+
+.mobile-panel[data-open="true"] .mobile-stagger {
+    animation: rise-in 0.45s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 60ms + 90ms);
+}
+
+/* ==========================================================================
+   Social rail
+
+   The old tiles used bg-blue-600 / #6fc2b0 / #333 behind white text; the mint
+   one measured 1.42:1. All three now sit on the navy surface with a coral
+   hover, which clears AA comfortably.
+   ========================================================================== */
+
+.si-item {
+    @apply flex items-center justify-between gap-3 rounded-r-xl py-4 pl-4 pr-3 text-sm font-medium;
+    width: 11rem;
+    margin-left: -7.25rem;
+    background-color: var(--navy-2);
+    border: 1px solid var(--line);
+    border-left: none;
+    color: var(--text);
+    transition: margin-left 0.3s var(--ease-out), background-color 0.3s var(--ease-out),
+        color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+.si-item:hover,
+.si-item:focus-visible {
+    margin-left: -0.5rem;
+    background-color: var(--navy-3);
+    border-color: var(--line-strong);
+    color: var(--coral-text);
+}
+
+/* ==========================================================================
+   Work — expand in place
+
+   The detail panel stays in the DOM when collapsed so it is still indexable,
+   but `visibility: hidden` takes its links out of the tab order, which a
+   height-clipped panel alone would not do.
+   ========================================================================== */
+
+.expand {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s var(--ease-out);
+}
+
+.expand[data-open="true"] {
+    grid-template-rows: 1fr;
+}
+
+.expand-body {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s 0.45s;
+}
+
+.expand[data-open="true"] .expand-body {
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.work-media {
+    @apply relative w-full overflow-hidden rounded-xl;
+    aspect-ratio: 16 / 10;
+    background-color: var(--navy-3);
+}
+
+.work-media img {
+    @apply absolute inset-0 h-full w-full object-cover object-top;
+    transition: transform 0.7s var(--ease-out);
+}
+
+.work-card:hover .work-media img {
+    transform: scale(1.04);
+}
+
+/* Placeholder for a project with no screenshot yet. */
+.work-media--empty {
+    @apply flex items-center justify-center;
+    background-image: linear-gradient(135deg, var(--navy-3), var(--navy-2));
+}
+
+.work-row {
+    @apply flex flex-col gap-3 border-b py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6;
+    border-color: var(--line);
+    transition: padding-left 0.3s var(--ease-out);
+}
+
+.work-row:hover {
+    padding-left: 0.4rem;
+}
+
+/* ==========================================================================
+   Scroll reveal
+   ========================================================================== */
+
+[data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="left"] {
+    transform: translate3d(-28px, 0, 0);
+}
+
+[data-reveal="fade"] {
+    transform: none;
+}
+
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes blink {
+    0%,
+    49% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.caret {
+    @apply ml-1 inline-block align-middle;
+    width: 0.1em;
+    height: 0.85em;
+    background-color: var(--coral);
+    animation: blink 1.1s steps(1, end) infinite;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        transition-delay: 0ms !important;
+    }
+
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   Print — dark-on-light, no chrome, everything revealed
+   ========================================================================== */
+
+@media print {
+    body {
+        background: #fff;
+        color: #111;
+    }
+
+    .nav-shell,
+    .mobile-panel,
+    .mobile-cta,
+    .si-item,
+    .skip-link,
+    .caret {
+        display: none !important;
+    }
+
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .section,
+    .section-auto,
+    .section--raised,
+    .card {
+        background: #fff !important;
+        color: #111;
+        min-height: 0;
+    }
+
+    .section-lead,
+    .card p,
+    .card li,
+    .chip {
+        color: #333;
+    }
+
+    .expand {
+        grid-template-rows: 1fr !important;
+    }
+
+    .expand-body {
+        visibility: visible !important;
+    }
+
+    a {
+        color: #b32e49;
+    }
 }
