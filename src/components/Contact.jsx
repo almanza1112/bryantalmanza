@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FiAlertCircle, FiCheck, FiLoader, FiSend } from "react-icons/fi";
 import Reveal from "./ui/Reveal";
 import { SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const STATUS = { IDLE: "idle", SENDING: "sending", SENT: "sent", ERROR: "error" };
 
@@ -45,6 +46,7 @@ const Contact = () => {
       });
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
       setStatus(STATUS.SENT);
+      track("contact_submit", {});
       form.reset();
     } catch (err) {
       setStatus(STATUS.ERROR);
@@ -72,6 +74,13 @@ const Contact = () => {
             <Reveal delay={220} className="mt-8">
               <a
                 href={`mailto:${SITE.email}`}
+                onClick={() =>
+                  track("outbound_click", {
+                    label: "Email",
+                    href: `mailto:${SITE.email}`,
+                    location: "contact",
+                  })
+                }
                 className="text-lg font-semibold link-underline break-all"
               >
                 {SITE.email}
@@ -181,7 +190,17 @@ const Contact = () => {
                     />
                     <span>
                       That did not go through. Please try again, or email me directly at{" "}
-                      <a href={`mailto:${SITE.email}`} className="link-underline text-coral-text">
+                      <a
+                        href={`mailto:${SITE.email}`}
+                        onClick={() =>
+                          track("outbound_click", {
+                            label: "Email",
+                            href: `mailto:${SITE.email}`,
+                            location: "contact",
+                          })
+                        }
+                        className="link-underline text-coral-text"
+                      >
                         {SITE.email}
                       </a>
                       .

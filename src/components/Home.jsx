@@ -4,6 +4,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import Reveal from "./ui/Reveal";
 import { SITE } from "../data/site";
 import { STATS } from "../data/projects";
+import { track } from "../lib/analytics";
 
 const Home = () => (
   <section id="top" className="section overflow-hidden">
@@ -33,11 +34,19 @@ const Home = () => (
       </Reveal>
 
       <Reveal delay={300} className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-        <a href="#work" className="btn btn-primary">
+        <a
+          href="#work"
+          onClick={() => track("cta_click", { label: "View my work" })}
+          className="btn btn-primary"
+        >
           View my work
           <HiArrowNarrowRight aria-hidden="true" size={18} />
         </a>
-        <a href="#contact" className="btn btn-ghost">
+        <a
+          href="#contact"
+          onClick={() => track("cta_click", { label: "Get in touch" })}
+          className="btn btn-ghost"
+        >
           Get in touch
           <HiOutlineMail aria-hidden="true" size={18} />
         </a>

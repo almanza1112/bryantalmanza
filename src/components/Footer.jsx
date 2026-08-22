@@ -4,6 +4,7 @@ import { FiArrowUp } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { MdOutlineBusinessCenter } from "react-icons/md";
 import { NAV_LINKS, SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const Footer = () => (
   <footer className="border-t border-line px-5 py-12 sm:px-8">
@@ -29,6 +30,13 @@ const Footer = () => (
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
+          onClick={() =>
+            track("outbound_click", {
+              label: "GitHub",
+              href: SITE.github,
+              location: "footer",
+            })
+          }
           className="text-muted transition-colors hover:text-coral-text"
         >
           <FaGithub size={20} />
@@ -38,6 +46,13 @@ const Footer = () => (
           target="_blank"
           rel="noopener noreferrer"
           aria-label="AlmanzaTech, my software studio"
+          onClick={() =>
+            track("outbound_click", {
+              label: "AlmanzaTech",
+              href: SITE.business,
+              location: "footer",
+            })
+          }
           className="text-muted transition-colors hover:text-coral-text"
         >
           <MdOutlineBusinessCenter size={22} />
@@ -45,6 +60,13 @@ const Footer = () => (
         <a
           href={`mailto:${SITE.email}`}
           aria-label="Email me"
+          onClick={() =>
+            track("outbound_click", {
+              label: "Email",
+              href: `mailto:${SITE.email}`,
+              location: "footer",
+            })
+          }
           className="text-muted transition-colors hover:text-coral-text"
         >
           <HiOutlineMail size={22} />

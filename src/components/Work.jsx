@@ -3,6 +3,7 @@ import { FiChevronDown, FiExternalLink, FiGithub } from "react-icons/fi";
 import Reveal from "./ui/Reveal";
 import { FEATURED, MORE_WORK } from "../data/projects";
 import { SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 const isCode = (label) => /code|github/i.test(label);
 
@@ -70,7 +71,15 @@ const WorkCard = ({ project, open, onToggle, index }) => {
             <>
               <button
                 type="button"
-                onClick={() => onToggle(project.id)}
+                onClick={() => {
+                  if (!open) {
+                    track("project_expand", {
+                      project_id: project.id,
+                      project_name: project.name,
+                    });
+                  }
+                  onToggle(project.id);
+                }}
                 aria-expanded={open}
                 aria-controls={detailId}
                 aria-label={`${open ? "Show less about" : "Read more about"} ${project.name}`}
@@ -133,6 +142,14 @@ const WorkCard = ({ project, open, onToggle, index }) => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    track("project_click", {
+                      project_id: project.id,
+                      project_name: project.name,
+                      link_label: link.label,
+                      href: link.href,
+                    })
+                  }
                   className="inline-flex items-center gap-2 text-sm font-semibold link-underline"
                 >
                   {isCode(link.label) ? (
@@ -195,6 +212,13 @@ const Work = () => {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              track("outbound_click", {
+                label: "GitHub",
+                href: SITE.github,
+                location: "work",
+              })
+            }
           >
             GitHub
           </a>
@@ -247,6 +271,14 @@ const Work = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${project.name} — ${link.label}`}
+                        onClick={() =>
+                          track("project_click", {
+                            project_id: project.id,
+                            project_name: project.name,
+                            link_label: link.label,
+                            href: link.href,
+                          })
+                        }
                         className="text-muted transition-colors hover:text-coral-text"
                       >
                         {isCode(link.label) ? (

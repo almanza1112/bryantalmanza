@@ -7,6 +7,9 @@ import Work from "./components/Work";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import useSectionViews from "./hooks/useSectionViews";
+
+const TRACKED_SECTIONS = ["about", "skills", "work", "testimonials", "contact"];
 
 /**
  * Re-applies the incoming URL hash after the first render.
@@ -28,6 +31,7 @@ function useHashOnLoad() {
 
 function App() {
   useHashOnLoad();
+  useSectionViews(TRACKED_SECTIONS);
 
   return (
     <>

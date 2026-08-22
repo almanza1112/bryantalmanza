@@ -7,6 +7,7 @@ import useActiveSection from "../hooks/useActiveSection";
 import useScrollState from "../hooks/useScrollState";
 import { scrollToId } from "../lib/motion";
 import { NAV_IDS, NAV_LINKS, SITE } from "../data/site";
+import { track } from "../lib/analytics";
 
 /**
  * Navigation is plain anchors now, not react-scroll <Link>s. Those rendered
@@ -185,6 +186,13 @@ const Navbar = () => {
                   tabIndex={open ? 0 : -1}
                   target={external ? "_blank" : undefined}
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    track("outbound_click", {
+                      label: item.label,
+                      href: item.href,
+                      location: "navbar",
+                    })
+                  }
                   className="flex items-center gap-3 text-muted transition-colors hover:text-coral-text"
                 >
                   <Icon aria-hidden="true" size={18} className="text-coral" />
@@ -209,6 +217,13 @@ const Navbar = () => {
                   href={item.href}
                   target={external ? "_blank" : undefined}
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    track("outbound_click", {
+                      label: item.label,
+                      href: item.href,
+                      location: "navbar",
+                    })
+                  }
                 >
                   {item.label}
                   <Icon aria-hidden="true" size={24} />

@@ -12,6 +12,9 @@
 /build
 .build.zip
 
+# local planning docs (blueprint/build workflow)
+PLAN.md
+
 # misc
 .DS_Store
 .env.local
