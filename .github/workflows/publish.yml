@@ -3,7 +3,7 @@ name: Build and publish
 # Builds the site on every push to master and publishes the compiled output to
 # a `deploy` branch. Hostinger's Git integration watches `deploy` and pulls it
 # into public_html — it does not run builds itself, which is why master (source
-# only) can't be deployed directly. Same pipeline as almanzatech2.0.
+# only) can't be deployed directly.
 
 on:
   push:
